@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Home</title>
+    <style>
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            overflow: hidden; 
+            /* Pure black background so you don't need a screenshot file */
+            background-color: #000000; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-user-select: none; user-select: none;
+        }
+        /* Custom Status Bar Clock Style */
+        .ios-clock {
+            position: absolute; top: 16px; left: 32px;
+            font-size: 15px; font-weight: 600; color: #ffffff;
+            letter-spacing: -0.2px; z-index: 5;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="clock" class="ios-clock">00:00</div>
+
+    <script>
+        const clockEl = document.getElementById('clock');
+        const trueTime = new Date();
+        
+        let displayTime = new Date(trueTime.getTime());
+        displayTime.setMinutes(displayTime.getMinutes() + 5);
+
+        function updateClockDisplay() {
+            let hours = displayTime.getHours();
+            let minutes = displayTime.getMinutes();
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            clockEl.innerText = hours + ':' + minutes;
+        }
+
+        updateClockDisplay();
+
+        setTimeout(() => {
+            const timeTravelInterval = setInterval(() => {
+                displayTime.setMinutes(displayTime.getMinutes() - 1);
+                updateClockDisplay();
+                
+                if (displayTime.getTime() <= trueTime.getTime()) {
+                    clearInterval(timeTravelInterval);
+                }
+            }, 100); 
+        }, 5000); 
+    </script>
+</body>
+</html>
